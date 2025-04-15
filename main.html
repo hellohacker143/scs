@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Board</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #liveBoard {
+            width: 100%;
+            height: 200px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+        }
+
+        #textInput {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Live Text Board</h1>
+    
+    <input type="text" id="textInput" placeholder="Type something..." oninput="updateLiveBoard()">
+    <button onclick="sendText()">Send</button>
+
+    <div id="liveBoard">
+        <p id="message">Your live text will appear here...</p>
+    </div>
+
+    <script>
+        // Update the live board as the user types
+        function updateLiveBoard() {
+            var userInput = document.getElementById('textInput').value;
+            // Store the text in localStorage to reflect it across sessions
+            localStorage.setItem('liveText', userInput);
+        }
+
+        // Send button to confirm the message
+        function sendText() {
+            var userInput = document.getElementById('textInput').value;
+            localStorage.setItem('liveText', userInput);  // Ensure the latest text is stored
+            updateLiveBoard();  // Reflect the text change on the live board immediately
+        }
+
+        // Initialize the live board with the existing content from localStorage
+        window.onload = function() {
+            var liveText = localStorage.getItem('liveText');
+            if (liveText) {
+                document.getElementById('message').innerText = liveText;
+            }
+        };
+    </script>
+</body>
+</html>
